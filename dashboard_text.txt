@@ -1,0 +1,87 @@
+dashboard
+Dashboard
+Notifications
+
+message
+Messages
+
+notifications_active
+Notifications
+
+Account
+
+account_circle
+Your Profile
+
+lock
+Secure Account
+
+group
+Your Students
+
+credit_card
+Payment Methods
+
+autorenew
+Auto Replenishment
+
+recent_actors
+Digital ID
+
+History
+
+history
+Payment History
+
+style
+Reports
+
+School District
+
+assignment
+School Meals and Summer EBT Application
+
+share
+Share Benefits with other Departments
+
+done
+View Completed Application
+
+School Events
+
+Search Events
+
+Information
+
+help
+Help
+
+lock
+Privacy
+
+file_copy
+Terms and Conditions
+
+exit_to_app
+Logout
+
+Version: v2026.03.24
+
+Select language
+English(US)
+shopping_cart
+0
+ $0.00
+Dashboard
+ All Students  
+ Melody  Yu
+ Micah  Yu
+Meal
+Name	Cafeteria Balance	Bonus Balance	Add Funds
+Melody  Yu	$443.25	$0.00	
+Micah  Yu	$438.75	$0.00	
+Fees
+All Fees
+All Fees
+Search
+No Fees to display
