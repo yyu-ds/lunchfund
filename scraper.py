@@ -50,61 +50,46 @@ def scrape_balances(headless=True):
         
         print("Waiting for dashboard to load...")
         try:
-            # Wait for at least one kid to show up
-            page.wait_for_selector("text='Melody Yu'", timeout=15000)
+            # Wait for the meals table to have actual data rows (not just the header)
+            page.wait_for_selector("app-meals td", timeout=15000)
             print("Dashboard loaded.")
-            
-            # Since the exact HTML structure is unknown, we dump the page text and parse it
-            page_text = page.locator("body").inner_text()
-            
+
             with open("dashboard_text.txt", "w", encoding="utf-8") as f:
-                f.write(page_text)
+                f.write(page.locator("body").inner_text())
             with open("dashboard_source.html", "w", encoding="utf-8") as f:
                 f.write(page.content())
-                
-            lines = page_text.split('\n')
-            
-            # Find the header row to know which exact column is "Cafeteria Balance"
-            caf_col_idx = -1
-            for line in lines:
-                if "Cafeteria Balance" in line:
-                    cols = line.split('\t')
-                    for i, col_name in enumerate(cols):
-                        if "Cafeteria Balance" in col_name:
-                            caf_col_idx = i
-                            break
-                    if caf_col_idx != -1:
-                        break
-            
+
+            # Find which column index is "Cafeteria Balance" from the header row
+            header_cells = page.locator("app-meals th").all_text_contents()
+            caf_col_idx = next(
+                (i for i, h in enumerate(header_cells) if "Cafeteria Balance" in h),
+                -1,
+            )
+            print(f"Cafeteria Balance column index: {caf_col_idx} (headers: {header_cells})")
+
             for kid in ["Melody Yu", "Micah Yu"]:
-                kid_pattern = kid.replace(" ", r"\s+")
                 found = False
-                
-                # Use strict table-column lookups to avoid "Bonus Balance"
                 if caf_col_idx != -1:
-                    for line in lines:
-                        if re.match(rf"^{kid_pattern}", line.strip(), re.IGNORECASE):
-                            cols = line.split('\t')
-                            # Ensure the row has enough columns
-                            if len(cols) > caf_col_idx:
-                                val_str = cols[caf_col_idx].replace('$', '').replace(',', '').strip()
-                                try:
-                                    balances[kid] = float(val_str)
-                                    found = True
-                                    break
-                                except ValueError:
-                                    pass
-                
-                # Fallback purely in case table formatting changes dramatically
+                    # Iterate over data rows (skip the header row which uses <th>)
+                    rows = page.locator("app-meals tr:has(td)").all()
+                    for row in rows:
+                        cells = row.locator("td").all_text_contents()
+                        if not cells:
+                            continue
+                        # Normalize whitespace (the name may contain &nbsp;)
+                        row_name = re.sub(r"\s+", " ", cells[0]).strip()
+                        if row_name.lower() == kid.lower() and len(cells) > caf_col_idx:
+                            val_str = cells[caf_col_idx].replace("$", "").replace(",", "").strip()
+                            try:
+                                balances[kid] = float(val_str)
+                                found = True
+                                break
+                            except ValueError:
+                                pass
+
                 if not found:
-                    print(f"Could not find exact Cafeteria table column for {kid}. Falling back to loose search.")
-                    pattern = re.compile(rf"{kid_pattern}\s+\$(\d+\.\d{{2}})", re.IGNORECASE)
-                    match = pattern.search(page_text)
-                    if match:
-                        balances[kid] = float(match.group(1))
-                    else:
-                        print(f"Total failure finding balance for {kid}")
-                        balances[kid] = 0.0
+                    print(f"Could not find Cafeteria Balance for {kid} via DOM selectors.")
+                    balances[kid] = 0.0
 
         except Exception as e:
             print(f"Error scraping balances: {e}")
@@ -160,11 +145,11 @@ def run_job(headless=True):
         email_body += f"{kid}:\n"
         email_body += f"  Current Balance: ${balance:.2f}\n"
         if spending > 0:
-            email_body += f"  Spent Yesterday: ${spending:.2f}\n"
+            email_body += f"  Spent Today: ${spending:.2f}\n"
         elif spending < 0:
             email_body += f"  Added to account: ${-spending:.2f}\n"
         else:
-            email_body += f"  No spending yesterday.\n"
+            email_body += f"  No spending today.\n"
         email_body += "\n"
         
         history[kid] = balance
