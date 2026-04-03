@@ -51,9 +51,9 @@ You can configure a cron job to automatically run this scraper daily at **1:00 P
 
 2. Add the following entry to the bottom of the file (this assumes `uv` is installed and accessible in your environment):
    ```cron
-   0 13 * * 1-5 cd /Users/yyu/yyu-ds/lunchfund && /Users/yyu/.cargo/bin/uv run scraper.py >> cron.log 2>&1
+   0 13 * * 1-5 cd /Users/yyu/yyu-ds/lunchfund && /Users/yyu/.local/bin/uv run scraper.py >> cron.log 2>&1
    ```
-   *(Note: You may need to verify the absolute path to your `uv` installation via `which uv`. If it's located somewhere else like `/opt/homebrew/bin/uv`, replace it accordingly. Alternatively, you can point directly to the project's virtual environment python: `/Users/yyu/yyu-ds/lunchfund/.venv/bin/python`)*
+   *(Note: The absolute path used for `uv` is `/Users/yyu/.local/bin/uv`. Alternatively, you can point directly to the project's virtual environment python: `/Users/yyu/yyu-ds/lunchfund/.venv/bin/python`)*
 
 ### Cron Syntax Breakdown:
 - **`0`** - Minute (0th minute)
@@ -63,3 +63,19 @@ You can configure a cron job to automatically run this scraper daily at **1:00 P
 - **`1-5`** - Day of the week (1 to 5 corresponds to Monday to Friday)
 
 This will ensure the application automatically scrapes the balance and notifies you, with any errors routing to a local `cron.log` file.
+
+## How to Pause the Cron Job
+
+If you want to temporarily disable the script (for example, during summer break):
+
+1. Open the crontab editor:
+   ```bash
+   crontab -e
+   ```
+2. Add a `#` at the very beginning of the line to "comment it out". It should look like this:
+   ```cron
+   # 0 13 * * 1-5 cd /Users/yyu/yyu-ds/lunchfund && /Users/yyu/.local/bin/uv run scraper.py >> cron.log 2>&1
+   ```
+3. Save and exit. 
+
+When school starts again, you can simply edit the crontab (using `crontab -e`) and remove the `#` to re-enable it!
