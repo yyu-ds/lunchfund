@@ -2,6 +2,7 @@ import os
 import re
 import json
 import smtplib
+import time
 from email.message import EmailMessage
 from pathlib import Path
 from dotenv import load_dotenv
@@ -115,14 +116,24 @@ def send_email(subject, body):
     msg["From"] = sender
     msg["To"] = receiver
     
-    try:
-        server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-        server.login(sender, password)
-        server.send_message(msg)
-        server.quit()
-        print("Email sent successfully!")
-    except Exception as e:
-        print(f"Failed to send email: {e}")
+    max_retries = 10
+    retry_delay_seconds = 180  # 3 minutes
+
+    for attempt in range(1, max_retries + 1):
+        try:
+            server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+            server.login(sender, password)
+            server.send_message(msg)
+            server.quit()
+            print("Email sent successfully!")
+            return
+        except Exception as e:
+            print(f"Failed to send email (attempt {attempt}/{max_retries}): {e}")
+            if attempt < max_retries:
+                print(f"Retrying in {retry_delay_seconds // 60} minutes...")
+                time.sleep(retry_delay_seconds)
+            else:
+                print("Max retries reached. Giving up.")
 
 def run_job(headless=True):
     print("Running PaySchools Scraper Job...")

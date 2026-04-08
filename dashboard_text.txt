@@ -78,8 +78,8 @@ Dashboard
  Micah  Yu
 Meal
 Name	Cafeteria Balance	Bonus Balance	Add Funds
-Melody  Yu	$443.25	$0.00	
-Micah  Yu	$438.75	$0.00	
+Melody  Yu	$428.25	$0.00	
+Micah  Yu	$417.50	$0.00	
 Fees
 All Fees
 All Fees

@@ -1,0 +1,54 @@
+Running PaySchools Scraper Job...
+Navigating to PaySchools Central...
+Logging in...
+Waiting for dashboard to load...
+Dashboard loaded.
+Cafeteria Balance column index: 1 (headers: ['Name', 'Cafeteria Balance', 'Bonus Balance', 'Add Funds'])
+PaySchools Daily Lunch Balance Summary:
+
+Melody Yu:
+  Current Balance: $438.25
+  Spent Today: $5.00
+
+Micah Yu:
+  Current Balance: $430.75
+  Spent Today: $8.00
+
+
+Email sent successfully!
+Running PaySchools Scraper Job...
+Navigating to PaySchools Central...
+Logging in...
+Waiting for dashboard to load...
+Dashboard loaded.
+Cafeteria Balance column index: 1 (headers: ['Name', 'Cafeteria Balance', 'Bonus Balance', 'Add Funds'])
+PaySchools Daily Lunch Balance Summary:
+
+Melody Yu:
+  Current Balance: $433.25
+  Spent Today: $5.00
+
+Micah Yu:
+  Current Balance: $425.50
+  Spent Today: $5.25
+
+
+Email sent successfully!
+Running PaySchools Scraper Job...
+Navigating to PaySchools Central...
+Logging in...
+Waiting for dashboard to load...
+Dashboard loaded.
+Cafeteria Balance column index: 1 (headers: ['Name', 'Cafeteria Balance', 'Bonus Balance', 'Add Funds'])
+PaySchools Daily Lunch Balance Summary:
+
+Melody Yu:
+  Current Balance: $428.25
+  Spent Today: $5.00
+
+Micah Yu:
+  Current Balance: $417.50
+  Spent Today: $8.00
+
+
+Failed to send email: (421, b'4.3.0 Temporary System Problem. Try again later. For more information, go to\n4.3.0  https://support.google.com/a/answer/3221692 af79cd13be357-8dae66c0c23sm265662785a.12 - gsmtp')
