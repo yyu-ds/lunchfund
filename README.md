@@ -2,6 +2,15 @@
 
 A Python application using Playwright to automatically track and monitor daily school cafeteria spending via PaySchools Central and send an email update.
 
+## Features
+
+- **Daily balance email** — HTML with per-kid cards and a 30-day balance trend chart (plus a plain-text fallback), including the classic "who spent more" subject line.
+- **Failure alerts** — if the scrape breaks (login change, layout change, timeout), you get a 🚨 email with the error and debug screenshots instead of silence.
+- **Spending history** — every run appends a dated record to `history.json` (up to a year kept), powering the trends and recaps below.
+- **Low-balance warning** — when a balance drops below `LOW_BALANCE_THRESHOLD` (default `$20`), the subject flips to a ⚠️ warning with an estimated "lunch days left" based on that kid's average daily spend.
+- **Weekly recap** — Friday emails include per-kid totals for the week, a comparison to last week, and the 🏆 biggest spender.
+- **No-school-day inference** — if nobody spent anything (and there's nothing else to report), the run records the data but skips the email, so holidays and summer break don't spam you.
+
 ## Prerequisites
 
 This project uses `uv` for easy dependency management. Make sure you have `uv` installed.
@@ -23,11 +32,13 @@ This project uses `uv` for easy dependency management. Make sure you have `uv` i
    EMAIL_SENDER=sender_email
    EMAIL_APP_PASSWORD=sender_app_password
    EMAIL_RECEIVER=receiver_email
+   # Optional: low-balance warning threshold in dollars (default 20)
+   LOW_BALANCE_THRESHOLD=20
    ```
 
 ## How to Test
 
-You can run an ultimate test mode. This runs the script in **headed mode** (meaning a browser window will pop open and you can watch it navigate and scrape in real-time). It performs the full job, updates the local records (`history.json`), and sends a test email.
+You can run an ultimate test mode. This runs the script in **headed mode** (meaning a browser window will pop open and you can watch it navigate and scrape in real-time). It performs the full job, updates the local records (`history.json`), and always sends the email — even on a zero-spending day when the normal run would skip it.
 
 Run the following command:
 
@@ -66,7 +77,7 @@ This will ensure the application automatically scrapes the balance and notifies 
 
 ## How to Pause the Cron Job
 
-If you want to temporarily disable the script (for example, during summer break):
+Thanks to the no-school-day inference, you don't strictly need to pause anything during breaks — the scraper will quietly record unchanged balances without emailing you. But if you'd rather not have it log in at all (for example, during summer break):
 
 1. Open the crontab editor:
    ```bash

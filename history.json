@@ -1,4 +1,20 @@
 {
-  "Melody Yu": 428.25,
-  "Micah Yu": 417.5
+  "balances": {
+    "Melody Yu": 191.5,
+    "Micah Yu": 109.5
+  },
+  "last_updated": "2026-07-13",
+  "records": [
+    {
+      "date": "2026-07-13",
+      "balances": {
+        "Melody Yu": 191.5,
+        "Micah Yu": 109.5
+      },
+      "spent": {
+        "Melody Yu": 0.0,
+        "Micah Yu": 0.0
+      }
+    }
+  ]
 }

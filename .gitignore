@@ -11,3 +11,10 @@ wheels/
 
 # Environment variables
 .env
+
+# Runtime debug artifacts
+cron.log
+dashboard_source.html
+dashboard_text.txt
+error_screenshot.png
+login_error.png
