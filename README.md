@@ -1,4 +1,4 @@
-# LunchFund Tracker
+# LunchFund Tracker 
 
 A Python application using Playwright to automatically track and monitor daily school cafeteria spending via PaySchools Central and send an email update.
 
