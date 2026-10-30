@@ -11,7 +11,7 @@ A Python application using Playwright to automatically track and monitor daily s
 - **Failure alerts** — if the scrape still breaks after retrying (login change, layout change, timeout), you get a 🚨 email with the error and debug screenshots instead of silence.
 - **Spending history** — every run appends a dated record to `history.json` (up to a year kept), powering the trends and recaps below.
 - **Low-balance warning** — when a balance drops below `LOW_BALANCE_THRESHOLD` (default `$20`), the subject flips to a ⚠️ warning with an estimated "lunch days left" based on that kid's average daily spend.
-- **Weekly recap** — Friday emails include per-kid totals for the week, a comparison to last week, and the 🏆 biggest spender.
+- **Weekly recap** — Friday emails include per-kid totals for the week, a comparison to last week, and, if anything was spent that week, the combined total expense and the 🏆 biggest spender.
 - **No-school-day inference** — if nobody spent anything (and there's nothing else to report), the run records the data but skips the email, so holidays and summer break don't spam you.
 
 ## Prerequisites
