@@ -7,7 +7,8 @@ A Python application using Playwright to automatically track and monitor daily s
 ## Features
 
 - **Daily balance email** — HTML with per-kid cards and a 30-day balance trend chart (plus a plain-text fallback), including the classic "who spent more" subject line.
-- **Failure alerts** — if the scrape breaks (login change, layout change, timeout), you get a 🚨 email with the error and debug screenshots instead of silence.
+- **Popup handling and retries** — PaySchools notice popups are kept from opening in the scraper's browser (the text is logged to `cron.log`, and they still appear when you log in yourself), and a failed scrape logs in again up to 3 more times, 10 minutes apart.
+- **Failure alerts** — if the scrape still breaks after retrying (login change, layout change, timeout), you get a 🚨 email with the error and debug screenshots instead of silence.
 - **Spending history** — every run appends a dated record to `history.json` (up to a year kept), powering the trends and recaps below.
 - **Low-balance warning** — when a balance drops below `LOW_BALANCE_THRESHOLD` (default `$20`), the subject flips to a ⚠️ warning with an estimated "lunch days left" based on that kid's average daily spend.
 - **Weekly recap** — Friday emails include per-kid totals for the week, a comparison to last week, and the 🏆 biggest spender.

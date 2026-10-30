@@ -87,6 +87,15 @@ def week_spend_totals(history, today):
 # Scraping
 # ---------------------------------------------------------------------------
 
+def hide_notices(route):
+    """Empty PaySchools message lists in this browser so their popups never open."""
+    response = route.fetch()
+    body = response.json()
+    for message in body.get("Messages", []):
+        print(f"Hid PaySchools notice: {str(message.get('MessageText'))[:200]}")
+    route.fulfill(response=response, json={**body, "Messages": []})
+
+
 def scrape_balances(headless=True):
     user = os.environ.get("PAYSCHOOLS_USER")
     password = os.environ.get("PAYSCHOOLS_PASS")
@@ -98,6 +107,8 @@ def scrape_balances(headless=True):
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=headless)
         page = browser.new_page()
+        # Notice popups block the login buttons, and closing them is unreliable
+        page.route("**/Messaging/Get*Messages", hide_notices)
 
         try:
             print("Navigating to PaySchools Central...")
@@ -162,6 +173,29 @@ def scrape_balances(headless=True):
             browser.close()
 
     return balances
+
+
+def scrape_with_retries(headless=True):
+    """PaySchools occasionally serves an empty dashboard, so log in afresh before giving up."""
+    max_retries = 4
+    retry_delay_seconds = 600  # 10 minutes
+
+    for attempt in range(1, max_retries + 1):
+        try:
+            balances = scrape_balances(headless=headless)
+            if not balances:
+                raise RuntimeError(
+                    "Scrape finished but no balances were found — the dashboard layout "
+                    "may have changed. See dashboard_source.html / error_screenshot.png."
+                )
+            return balances
+        except Exception as e:
+            print(f"Scrape failed (attempt {attempt}/{max_retries}): {e}")
+            if attempt == max_retries:
+                print("Max retries reached. Giving up.")
+                raise
+            print(f"Retrying in {retry_delay_seconds // 60} minutes...")
+            time.sleep(retry_delay_seconds)
 
 
 # ---------------------------------------------------------------------------
@@ -385,12 +419,7 @@ def build_report(history, balances, spending, missing_kids, today, since_label):
 def run_job(headless=True, force_send=False):
     print("Running PaySchools Scraper Job...")
     try:
-        balances = scrape_balances(headless=headless)
-        if not balances:
-            raise RuntimeError(
-                "Scrape finished but no balances were found — the dashboard layout "
-                "may have changed. See dashboard_source.html / error_screenshot.png."
-            )
+        balances = scrape_with_retries(headless=headless)
     except Exception:
         error_text = traceback.format_exc()
         print(error_text)
