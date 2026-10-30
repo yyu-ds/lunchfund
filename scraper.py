@@ -371,6 +371,12 @@ def build_report(history, balances, spending, missing_kids, today, since_label):
                     f'<td style="padding:4px 12px;color:#888;">${lw:.2f} last week</td></tr>'
                 )
             if this_week:
+                total = sum(this_week.values())
+                text += f"  Total expense this week: ${total:.2f}\n"
+                recap_rows += (
+                    f'<tr><td colspan="3" style="padding:6px 0;font-weight:bold;">'
+                    f'Total expense this week: ${total:.2f}</td></tr>'
+                )
                 champ = max(this_week, key=this_week.get)
                 text += f"  🏆 Biggest spender: {champ.split()[0]}\n"
                 recap_rows += (
