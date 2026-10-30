@@ -2,6 +2,8 @@
 
 A Python application using Playwright to automatically track and monitor daily school cafeteria spending via PaySchools Central and send an email update.
 
+**Manual login:** [www.payschoolscentral.com](https://www.payschoolscentral.com/)
+
 ## Features
 
 - **Daily balance email** — HTML with per-kid cards and a 30-day balance trend chart (plus a plain-text fallback), including the classic "who spent more" subject line.

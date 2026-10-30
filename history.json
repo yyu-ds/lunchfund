@@ -1,9 +1,9 @@
 {
   "balances": {
-    "Melody Yu": 205.75,
-    "Micah Yu": 184.65
+    "Melody Yu": 177.25,
+    "Micah Yu": 149.55
   },
-  "last_updated": "2026-10-23",
+  "last_updated": "2026-10-30",
   "records": [
     {
       "date": "2026-07-13",
@@ -806,6 +806,61 @@
       "spent": {
         "Melody Yu": 5.25,
         "Micah Yu": 5.5
+      }
+    },
+    {
+      "date": "2026-10-26",
+      "balances": {
+        "Melody Yu": 200.5,
+        "Micah Yu": 176.45
+      },
+      "spent": {
+        "Melody Yu": 5.25,
+        "Micah Yu": 8.2
+      }
+    },
+    {
+      "date": "2026-10-27",
+      "balances": {
+        "Melody Yu": 195.25,
+        "Micah Yu": 170.95
+      },
+      "spent": {
+        "Melody Yu": 5.25,
+        "Micah Yu": 5.5
+      }
+    },
+    {
+      "date": "2026-10-28",
+      "balances": {
+        "Melody Yu": 187.75,
+        "Micah Yu": 161.6
+      },
+      "spent": {
+        "Melody Yu": 7.5,
+        "Micah Yu": 9.35
+      }
+    },
+    {
+      "date": "2026-10-29",
+      "balances": {
+        "Melody Yu": 182.5,
+        "Micah Yu": 149.55
+      },
+      "spent": {
+        "Melody Yu": 5.25,
+        "Micah Yu": 12.05
+      }
+    },
+    {
+      "date": "2026-10-30",
+      "balances": {
+        "Melody Yu": 177.25,
+        "Micah Yu": 149.55
+      },
+      "spent": {
+        "Melody Yu": 5.25,
+        "Micah Yu": 0.0
       }
     }
   ]
